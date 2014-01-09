@@ -844,7 +844,6 @@ public class Vf extends JFrame implements ActionListener, MouseListener,
       disconnectButton.setEnabled(false);
       pauseButton.setEnabled(false);
       serverField.setEditable(true);
-      serverField.setEditable(true);
 
     } else if (e.getSource() == pauseButton) {
       // TODO internationalize
@@ -1543,6 +1542,8 @@ public class Vf extends JFrame implements ActionListener, MouseListener,
 
       // connect
       if (ircB == null) {
+    	  //TODO: Why doesn't it retrieve the correct server value?
+    	  //TODO: And it's not saved anyhow.
         ircB = new IRC(channelField.getText(), serverField.getText(), portField
             .getText(), data, this);
       } else {// connect wikimediachannels
