@@ -7,3 +7,6 @@
 
 # bin #
 bin/*
+
+# Execlude private vfdata
+vfdata2.txt
