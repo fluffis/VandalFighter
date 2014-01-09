@@ -443,6 +443,14 @@ public class MediawikiParser extends AbstractIRCParser {
           + ".org/w/index.php?title=Special%3AContributions&target="
           + urlEncode(subject.substring(subject.indexOf(":")+1));
     }
+    if(special == Edit.SPECIAL_REBLOCK) {
+    	// [[Special:Log/block]] reblock  * Riggwelter *  ändrade blockeringsinställningar för [[Användare:Antibarnagaren]] med en varaktighet på tills vidare (hindrar kontoregistrering, e-post blockerad, kan inte redigera sin diskussionssida): vandalkonto
+    	subject = parseSpecialParameter(projname, summary, "Reblock-logentry");
+    	pagename = pagename + " '" + subject + "'";
+    	url = "https://" + projname
+			+ ".org/w/index.php?title=Special%3AContributions&target="
+	        + urlEncode(subject.substring(subject.indexOf(":")+1));
+    }
     if (special == Edit.SPECIAL_PROTECT) {
       // e= new edit("Special:Log/protect", line, line, line, _port, pause,
       // pause, line, pause, line);

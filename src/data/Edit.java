@@ -66,6 +66,7 @@ public class Edit
   public static final Short SPECIAL_RENAME_USER = new Short((short)11);
 
   public static final Short SPECIAL_REVISION = new Short((short)12);
+  public static final Short SPECIAL_REBLOCK = new Short((short)13);
 
   public static final Short SPECIAL_COLLABORATION_OK = new Short((short)100);
   public static final Short SPECIAL_COLLABORATION_WARNING = new Short((short)101);
