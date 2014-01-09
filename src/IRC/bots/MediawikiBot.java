@@ -225,6 +225,8 @@ public class MediawikiBot extends PircBot implements MessageHandler, PagenameHan
     checkMessage(project, "Renameuserlog", rewrite);
     checkMessage(project, "Revertpage", rewrite);
     checkMessage(project, "Newuserlog-create2-entry", rewrite);
+    checkMessage(project, "Revdelete-logentry", rewrite);
+    checkMessage(project, "Reblock-logentry", rewrite);
     config.setMessage("millis."+project, ""+System.currentTimeMillis());
 
     if (config.getNamespace(project+".2") == null || rewrite) {
