@@ -3,7 +3,7 @@
  Copyright (C) 2005  Derek Williams aka CryptoDerk
  Copyright (c) 2006  Finne Boonen aka henna
  Copyright (c) 2006  Beren
- 
+
  CryptoDerk's Vandal Fighter is a tool for displaying
  a live feed of recent changes on Wikimedia projects
 
@@ -36,18 +36,18 @@
  * This file contains code for Vandalfighter
  * http://en.wikipedia.org/wiki/User:Henna/VF
  * This code is licenced under the gpl-2.0
- * 
+ *
  * History
  * -------
- * 
+ *
  * Original code was written in 2005
  * by Criptoderk as inner class vf$IRC
- * 
- * Standalone class was created on march 2006   TODO Beren 
- * author: Finne Boonen 
+ *
+ * Standalone class was created on march 2006   TODO Beren
+ * author: Finne Boonen
  * email: finne@cassia.be
  * http://en.wikipedia.org/wiki/User:Henna
- * 
+ *
  * Changed by Beren, 12-nov-2006
  * http://cs.wikipedia.org/wiki/User:Beren
  */
@@ -99,11 +99,11 @@ public class MediawikiParser extends AbstractIRCParser {
       i++;
     }
     pagename = pagename.substring(0, pagename.length() - 3);
-    
+
     String specialPage = config.getPagename(projname+".Special:Log");
     if (specialPage == null)
       specialPage = "Special:Log";
-    
+
     // HACK: it.wikipedia has IRC records in form "Speciale:Log"
     // but name of page is "Speciale:Registri"
     int idot = specialPage.indexOf(':');
@@ -209,24 +209,24 @@ public class MediawikiParser extends AbstractIRCParser {
      * System.out.println(line); while (line.charAt(i) != '3') {
      * System.out.println("to beginning: "+line.charAt(i)); i++; } i++; while (i<line.length()) {
      * if (line.charAt(i)=='5' && line.charAt(i+1)=='*') break;
-     * 
+     *
      * username += line.charAt(i); System.out.println("username:
      * "+line.charAt(i)); i++; } username =
      * username.substring(0,username.length()-3);
-     * 
+     *
      * while (line.charAt(i) !='2') { System.out.println("inbetween
      * "+line.charAt(i)); i++; } i++; while (line.charAt(i)!=']') {
      * System.out.println("move1: "+line.charAt(i)); move1+=line.charAt(i); i++;
      *  } move1 = move1.substring(0,move1.length()-3);
-     * 
+     *
      * while (line.charAt(i)!='[') { System.out.println("inbetween:
      * "+line.charAt(i)); i++; } i++; i++; while (line.charAt(i)!=']') {
      * System.out.println("move2: "+line.charAt(i)); move2+=line.charAt(i); i++; }
      * move2 = move2.substring(0,move2.length()-1);
-     * 
+     *
      * i++; i++; while (i < line.length()-1) { System.out.println("summary:
      * "+line.charAt(i)); editsummary += line.charAt(i); i++; }
-     * 
+     *
      * return new edit(move2, "http://"+getProj(channel)+".org/wiki/"+move2,
      * username, editsummary, 0, false, false, getProj(channel), true,
      * getTime());
@@ -285,12 +285,15 @@ public class MediawikiParser extends AbstractIRCParser {
     // System.out.println(line);
     int deleteIndex = line.indexOf("delete", i+1);
     int restoreIndex = line.indexOf("restore", i+1);
+    int revisionIndex = line.indexOf("revision", i+1);
     int starIndex = line.indexOf("*", i+1);
     if (deleteIndex != -1 && deleteIndex < starIndex)
       return parseSpecials(line, channel, Edit.SPECIAL_DELETE);
     if (restoreIndex != -1 && restoreIndex < starIndex)
       return parseSpecials(line, channel, Edit.SPECIAL_UNDELETE);
-    
+    if(revisionIndex != -1 && revisionIndex < starIndex)
+      return parseSpecials(line, channel, Edit.SPECIAL_REVISION);
+
     System.out.println("Strange write to delete log:" + line);
     return null;
   }
@@ -298,7 +301,7 @@ public class MediawikiParser extends AbstractIRCParser {
   // TODO Beren rewrite, other starts with Special:Log/ ... and this starts only with Log/
   private Edit parseNewuser(String line, String channel, int i) {
     return parseSpecials(line, channel, Edit.SPECIAL_NEWUSER);
-        
+
 //    i += 39;
 //    String username = "";
 //    while (i < line.length()) {
@@ -357,7 +360,7 @@ public class MediawikiParser extends AbstractIRCParser {
         subject = username;
       }
       pagename = pagename + " '" + subject + "'";
-      
+
       url = "http://" + projname + ".org/w/index.php?title=Special:Contributions&target=" + urlEncode(subject);
       // [[Special:Log/newusers]] newusers * Yurpy * New user ([[User
       // talk:Yurpy|Talk]] | [[Special:Contributions/Yurpy|contribs]] |
@@ -416,6 +419,12 @@ public class MediawikiParser extends AbstractIRCParser {
       pagename = pagename + " '" + subject + "'";
       url = "http://" + projname + ".org/wiki/" + urlEncode(subject);
     }
+    if(special == Edit.SPECIAL_REVISION) {
+     // [[Special:Log/delete]] revision  * Fluff *  Fluff ändrade synligheten för versioner på sidan [[Fleece]]: Opassande personupplysningar
+     subject = parseSpecialParameter(projname, summary, "Revdelete-logentry");
+      pagename = pagename + " '" + subject + "'";
+      url = "https://" + projname + ".org/wiki/" + urlEncode(subject);
+    }
     if (special == Edit.SPECIAL_BLOCK) {
       // e= new edit("Special:Log/block", line, line, line, _port, pause, pause,
       // line, pause, line);
@@ -453,7 +462,7 @@ public class MediawikiParser extends AbstractIRCParser {
       pagename = pagename + " '" + subject + "'";
       url = "http://" + projname + ".org/w/index.php?title=" + urlEncode(subject)+"&action=history";
     }
-    
+
     if (special == Edit.SPECIAL_MODIFY_PROTECT) {
       // e= new edit("Special:Log/protect", line, line, line, _port, pause,
       // pause, line, pause, line);
@@ -473,7 +482,7 @@ public class MediawikiParser extends AbstractIRCParser {
       pagename = pagename + " '" + subject + "'";
       url = "http://" + projname + ".org/w/index.php?title=" + urlEncode(subject)+"&action=history";
     }
-    
+
     if (special == Edit.SPECIAL_UNPROTECT) {
       subject = parseSpecialParameter(projname, summary, "Unprotectedarticle");
       pagename = pagename + " '" + subject + "'";

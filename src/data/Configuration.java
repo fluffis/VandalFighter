@@ -115,9 +115,9 @@ public class Configuration {
 
   public String filename = "vfdata.dat";
 
-  public int verint = 52;
+  public int verint = 54;
 
-  public String version = " 3.5b "+verint;//b means beta
+  public String version = " 3.6b (" +verint +")";//b means beta
 
   public int iplength = 10, appwidth = 768, lcb = 45, appheight = 576, appLeft = 100, appTop = 100, minheight = 360, minwidth = 480;
   //public int iplength = 10, appwidth = 1024, lcb = 45, appheight = 768, minheight = 480, minwidth = 640;

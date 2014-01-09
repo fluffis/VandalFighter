@@ -1,8 +1,8 @@
-/* 
+/*
  Edit class for CryptoDerk's Vandal Fighter
  Copyright (c) 2006  Finne Boonen aka henna
  Copyright (c) 2006  Beren
- 
+
  CryptoDerk's Vandal Fighter is a tool for displaying
  a live feed of recent changes on Wikimedia projects
 
@@ -35,16 +35,16 @@
  * This file contains code for Vandalfighter
  * http://en.wikipedia.org/wiki/User:Henna/VF
  * This code is licenced under the gpl-2.0
- * 
+ *
  * History
  * -------
- * 
+ *
  * Created in 2006 as class edit
- * author: Finne Boonen 
+ * author: Finne Boonen
  * email: finne@cassia.be
  * http://en.wikipedia.org/wiki/User:Henna
- * 
- * Changed by Beren, 12-nov-2006 
+ *
+ * Changed by Beren, 12-nov-2006
  * http://cs.wikipedia.org/wiki/User:Beren
  */
 
@@ -64,10 +64,12 @@ public class Edit
   public static final Short SPECIAL_UNPROTECT = new Short((short)9);
   public static final Short SPECIAL_MODIFY_PROTECT = new Short((short)10);
   public static final Short SPECIAL_RENAME_USER = new Short((short)11);
-  
+
+  public static final Short SPECIAL_REVISION = new Short((short)12);
+
   public static final Short SPECIAL_COLLABORATION_OK = new Short((short)100);
   public static final Short SPECIAL_COLLABORATION_WARNING = new Short((short)101);
-  
+
 	public String pagename;
 	String url;
 	String username;
@@ -91,7 +93,7 @@ public class Edit
 
   public Edit(String pagename, String url, String username,
       String editsummary, int change, boolean minor, boolean newpage,
-      String projname, long time, Short special, String subject, 
+      String projname, long time, Short special, String subject,
       boolean vc,boolean cc)
   {
     this.pagename = pagename;
@@ -131,7 +133,7 @@ public class Edit
     }
     return changeI;
   }
-  
+
 	public int calcRisk()
 	{
 		int r=0;
