@@ -138,6 +138,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import se.fluff.fluffwikibrowser.FluffWikiBrowser;
 import tools.BbrowserLauncher;
 import tools.Importer;
 import tools.VersionChecker;
@@ -1047,6 +1048,10 @@ public class Vf extends JFrame implements ActionListener, MouseListener,
   GregorianCalendar c;
 
   private void openBrowser(String url) {
+	  if(config.getBooleanProp("useinternalbrowser")) {
+		  FluffWikiBrowser fwb = new FluffWikiBrowser();
+		  fwb.openURL(url);
+	  }
     if (config.getBooleanProp("browserpick")) {
       try {
         BbrowserLauncher.openURL(url);
